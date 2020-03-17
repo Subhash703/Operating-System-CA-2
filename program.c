@@ -8,7 +8,7 @@ int main(){
     		*yp = temp; 
 	} 
 	// A function to implement bubble sort 
-	void sortBtime(int arr[], int n) 
+	void sortAtime(int arr[], int n) 
 	{ 
    		int i, j; 
   	 	for (i = 0; i < n-1; i++){       
@@ -39,7 +39,7 @@ int main(){
         	process[i]=i+1;
 	}
 	int size = sizeof(bt)/sizeof(int);
-	sortBtime(bt,size);			//Now this bt array is sorted 	
+	sortAtime(at,size);			//Now this bt array is sorted 	
 	int j;
 	for(j = 0; j<size; j++){
 		printf("process%d :%d\n",j,bt[j]);
