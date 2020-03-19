@@ -1,48 +1,56 @@
-#include<stdio.h>
-int main(){
-	
-	void swap(int *xp, int *yp) 
-	{ 
- 	   	int temp = *xp; 
-    		*xp = *yp; 
-    		*yp = temp; 
-	} 
-	// A function to implement bubble sort 
-	void sortAtime(int arr[], int n) 
-	{ 
-   		int i, j; 
-  	 	for (i = 0; i < n-1; i++){       
-       			// Last i elements are already in place    
-       			for (j = 0; j < n-i-1; j++){  
-        	   		if (arr[j] > arr[j+1]) 
-              				swap(&arr[j], &arr[j+1]);
-			} 
-		}
-	}
-	int noOfProcess;
-	int i;
-	int wa_time=0,ta_time=0;
 
-	printf("Enter the no of process :");
-	scanf("%d",&noOfProcess);
-	int at[noOfProcess],bt[noOfProcess],rt[noOfProcess],process[noOfProcess];
-	printf("Enter the Arrival time of all the process :\n");
-	for(i = 0; i<noOfProcess; i++){
-		printf("process%d:",i+1);
-        	scanf("%d",&bt[i]);
-        	process[i]=i+1;
-	}
-	printf("Enter the Brust time of each process :\n");
-	for(i = 0; i < noOfProcess; i++){
-		printf("process%d:",i+1);
-        	scanf("%d",&bt[i]);
-        	process[i]=i+1;
-	}
-	int size = sizeof(bt)/sizeof(int);
-	sortAtime(at,size);			//Now this bt array is sorted 	
-	int j;
-	for(j = 0; j<size; j++){
-		printf("process%d :%d\n",j,bt[j]);
-	}	
-	
+#include<stdio.h>
+#include<conio.h>
+# define max 30
+int main(){
+    int i,j,n,temp,process[max],bt[max],at[max],wt[max],tat[max];
+    float awt = 0;
+    float atat = 0;
+
+//    clrscr();
+
+    //code
+    printf("Enter the number of process : \n");
+    scanf("%d",&n);
+
+    printf("Enter the ID of process :\n");
+    for(i = 0; i < n; i++){
+        scanf("%d",&process[i]);
+    }
+
+    printf("Enter the burst time of Process :\n");
+    for(i = 0; i < n; i++){
+        scanf("%d",&bt[i]);
+    }
+
+    //Sorting of Burst time using Bubble Sort
+    
+    for(i = 0; i<n; i++){
+        for(j = 0; j<n-i-1; j++){
+            if(bt[j]>bt[j+1]){
+                temp = bt[j];
+                bt[j] = bt[j+1];
+                bt[j+1] = temp;
+
+                temp = process[j];
+                process[j] = process[j+1];
+                process[j+1] = temp;
+            }
+        }
+    }
+
+    printf("process \t Burst time \t waiting time \t turn around time\n");
+
+    for(i = 0; i<n; i++){
+        wt[i]=0;
+        tat[i]=0;
+
+        for(j=0; j<i; j++){
+            wt[i]=wt[i]+bt[j];
+        }
+        tat[i] = wt[i]+bt[i];
+
+        printf("\t%d\t %d\t\t %d\t\t %d\n",process[i],bt[i],wt[i],tat[i]);
+    }
+    return 0;
 }
