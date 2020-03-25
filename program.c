@@ -6,7 +6,8 @@ int main(){
     int i,j,n,temp,process[max],bt[max],at[max],wt[max],tat[max];
     float awt = 0;
     float atat = 0;
-
+    //For average waiting & turn around time calculation
+    int totalWt=0,totalTat = 0;
 //    clrscr();
 
     //code
@@ -49,8 +50,17 @@ int main(){
             wt[i]=wt[i]+bt[j];
         }
         tat[i] = wt[i]+bt[i];
-
+        
+        totalWt = totalWt+wt[i];
+		totalTat = totalTat+tat[i];
         printf("\t%d\t %d\t\t %d\t\t %d\n",process[i],bt[i],wt[i],tat[i]);
     }
+    
+    //Printing average time calculation
+    awt = (float)totalWt/(float)n;
+    atat = (float)totalTat/(float)n;
+    printf(" \n\nAverage Waiting time is %.2f",awt);
+    printf("\n\nAverage Turn around time is %.2f",atat);
+    
     return 0;
 }
