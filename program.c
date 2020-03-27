@@ -1,20 +1,23 @@
-
 #include<stdio.h>
 #include<conio.h>
 # define max 30
 int main(){
-    int i,j,n,temp,process[max],bt[max],at[max],wt[max],tat[max];
+
+    int i,j,n,temp,time,remaining,count;
+    int process[max],bt[max],at[max],wt[max],tat[max],rt[max];
     float awt = 0;
     float atat = 0;
+    int flag=0;
+    int queue[100];
     //For average waiting & turn around time calculation
     int totalWt=0,totalTat = 0;
-//    clrscr();
+    //clrscr();
 
     //code
     printf("Enter the number of process : \n");
     scanf("%d",&n);
-
-    printf("Enter the ID of process :\n");
+    remaining = n;
+    printf("Enter the arrival time of process :\n");
     for(i = 0; i < n; i++){
         scanf("%d",&process[i]);
     }
@@ -40,19 +43,35 @@ int main(){
         }
     }
 
-    printf("process \t Burst time \t waiting time \t turn around time\n");
-
+    printf("\tprocess \t Burst time \t waiting time \t turn around time\n");
+    
     for(i = 0; i<n; i++){
         wt[i]=0;
         tat[i]=0;
 
+	    //To check if the process is of less than the time limit 10 unit
+	    if(rt[count]<=10 && rt[count]>0) 	
+	    { 
+		//Add the remaining time of that process in time because this process is executed fully
+	      time+=rt[count]; 
+	      rt[count]=0; 
+	      flag=1;
+	      queue[count] = process[count]; 
+	    } 
+	    //If remaining time is more than 10 unit time then 10 sec of process will be executed
+	    else if(rt[count]>0) 
+	    { 
+	      rt[count]-=10; 
+	      time+=10; 
+	    }
+	    
         for(j=0; j<i; j++){
             wt[i]=wt[i]+bt[j];
         }
         tat[i] = wt[i]+bt[i];
         
         totalWt = totalWt+wt[i];
-		totalTat = totalTat+tat[i];
+	totalTat = totalTat+tat[i];
         printf("\t%d\t %d\t\t %d\t\t %d\n",process[i],bt[i],wt[i],tat[i]);
     }
     
