@@ -1,85 +1,113 @@
 #include<stdio.h>
-#include<conio.h>
-# define max 30
-int main(){
+#include<stdlib.h>
+#include<conio.h> 
+ #define max = 30;
+int main() 
+{ 
+ 
+  int count,i,j,m=0,n,y=0,time,remain=0,min,flag=0; 
+  int wait_time=0,turn_a_time=0,a_time[max],b_time[max],p[max],z[max];
+  float k=0,x=0; 
+  printf("Enter number of Process:\t "); 
+  scanf("%d",&n); 
+  printf("\n\tArrival time should be greater than 2 as CPU remains idle for first 3 secs.\n");
+  printf("\n\tBurst time should be less tha 10\n");
+  for(count=0;count<n;count++) 
+  { 
+    printf("Enter Arrival Time and Burst Time for Process Process Number %d :",count+1); 
+    scanf("%d",&a_time[count]); 
+    scanf("%d",&b_time[count]);  
+  } 
 
-    int i,j,n,temp,time,remaining,count;
-    int process[max],bt[max],at[max],wt[max],tat[max],rt[max];
-    float awt = 0;
-    float atat = 0;
-    int flag=0;
-    int queue[100];
-    //For average waiting & turn around time calculation
-    int totalWt=0,totalTat = 0;
-    //clrscr();
+for(i=0;i<n;i++)
+{
+	if(a_time[i]==0 )
+	{
+		printf("\nS INVALID ARRIVAL TIME\n");
+		getch();
+		exit(1);
+	}
+	if(b_time[i]>10){
+		printf("\nBurst time should be less than 10");
+		getch();
+		exit(1);
+	}
+}
+for(i=0;i<n;i++)
+{
+	if(a_time[i]<3)
+	{
+		printf("\nS INVALID Arrival Time it should be greater than 3\n");
+		getch();
+		exit(1);
+	}
+}
+  printf("\n\n\tProcess\t|Turnaround Time|Waiting Time\n\n"); 
+  printf("\t===========================================\n");
+for(i=0;i<n;i++)
+{
+	m=m+b_time[i];
+}
+min=m;
+time=m;
+for(i=0;i<n;i++)
+{
+	if(a_time[i]<time)
+	{
+		time=a_time[i];
+	}
+}
+for(i=time;i<=m;i=i+b_time[j])
+{
+	min=m;
+	remain=0;
+	flag=0;
 
-    //code
-    printf("Enter the number of process : \n");
-    scanf("%d",&n);
-    remaining = n;
-    printf("Enter the arrival time of process :\n");
-    for(i = 0; i < n; i++){
-        scanf("%d",&process[i]);
-    }
+	for(count=0;count<n;count++)
+	{
+	
+		if(a_time[count]<=i)
+		{
 
-    printf("Enter the burst time of Process :\n");
-    for(i = 0; i < n; i++){
-        scanf("%d",&bt[i]);
-    }
+			if(b_time[count]<min)
+			{
 
-    //Sorting of Burst time using Bubble Sort
-    
-    for(i = 0; i<n; i++){
-        for(j = 0; j<n-i-1; j++){
-            if(bt[j]>bt[j+1]){
-                temp = bt[j];
-                bt[j] = bt[j+1];
-                bt[j+1] = temp;
+				min = b_time[count];
+				j=count;
+				flag=1;
+			}
+			remain=1;	 
+		}
+	}
+	if(flag==1&&remain==1)
+	{
+		wait_time=i-a_time[j];
+		turn_a_time=wait_time+b_time[j];
+		printf("\tP[%d]\t|\t%d\t|\t%d\n",j+1,turn_a_time,wait_time); 
+		k=k+wait_time;
+		x=x+turn_a_time;
+	
+		a_time[j]=m+1;
+		p[y]=j+1;
+		z[y]=i;
+		y++;
+	}
+}
+printf("\n\nAverage Waiting Time= %.2f\n",k/n); 
+printf("Avg Turnaround Time = %.2f",x/n); 
+printf("\n\n\nTotal time taken by processor to complete all the jobs : %d",m);  
+printf("\n\nQueue  for order of execution:\n");
+printf("\n\nProcess		");
 
-                temp = process[j];
-                process[j] = process[j+1];
-                process[j+1] = temp;
-            }
-        }
-    }
+for(i=0;i<n;i++)
+{
+	printf(" P[%d]   ",p[i]);
+	if(i==(n-1))
+	{
+		printf("End");
+	}
+}
 
-    printf("\tprocess \t Burst time \t waiting time \t turn around time\n");
-    
-    for(i = 0; i<n; i++){
-        wt[i]=0;
-        tat[i]=0;
 
-	    //To check if the process is of less than the time limit 10 unit
-	    if(rt[count]<=10 && rt[count]>0) 	
-	    { 
-		//Add the remaining time of that process in time because this process is executed fully
-	      time+=rt[count]; 
-	      rt[count]=0; 
-	      flag=1;
-	      queue[count] = process[count]; 
-	    } 
-	    //If remaining time is more than 10 unit time then 10 sec of process will be executed
-	    else if(rt[count]>0) 
-	    { 
-	      rt[count]-=10; 
-	      time+=10; 
-	    }
-	    
-        for(j=0; j<i; j++){
-            wt[i]=wt[i]+bt[j];
-        }
-        tat[i] = wt[i]+bt[i];
-        
-        totalWt = totalWt+wt[i];
-	totalTat = totalTat+tat[i];
-        printf("\t%d\t %d\t\t %d\t\t %d\n",process[i],bt[i],wt[i],tat[i]);
-    }
-    
-    //Printing average time calculation
-    awt = (float)totalWt/(float)n;
-    atat = (float)totalTat/(float)n;
-    printf(" \n\nAverage Waiting time is %.2f",awt);
-    printf("\n\nAverage Turn around time is %.2f",atat);
-    
-    return 0;
+  return 0; 
 }
